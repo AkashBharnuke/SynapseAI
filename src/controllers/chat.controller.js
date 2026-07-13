@@ -1,27 +1,31 @@
-
+import { synthesizeResponses } from '../services/judge.service.js';
+import { orchestrateResponses } from '../services/orchestration.service.js'
 
 const generateResponse = async (req, res) => {
     try {
         const { prompt } = req.body;
 
-        return res.status(200).json({
-            success: true,
-            message: "Chat endpoint working.",
-            prompt
-        });
-        
-    } catch (error) {
-        console.error(error);
+        const models = await orchestrateResponses(prompt);
 
-        return res.status(500).json({
-            success: false,
-            message: 'Internal Server Error'
+        const consensus = await synthesizeResponses(prompt, models);
+
+        // console.log("========== JUDGE ==========");
+
+        // console.log(consensus.answer);
+
+
+        return res.json({
+            sucess: true,
+            models,
+            consensus
         });
-    }   
+    } catch(error) {
+        console.error(error);
+    }
 }
 
 
 
 export {
     generateResponse
-}
+};
