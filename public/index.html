@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>SynapseAI</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#8b5cf6"
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body
+  class="bg-slate-950 text-slate-100 min-h-screen"
+>
+
+  <main
+    class="max-w-7xl mx-auto px-6 py-10"
+  >
+
+    <!-- Hero -->
+    <section
+      class="text-center mb-10"
+    >
+      <h1
+        class="text-5xl font-bold bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent"
+      >
+        SynapseAI
+      </h1>
+
+      <p
+        class="mt-4 text-slate-400 text-lg"
+      >
+        Multiple Minds. One Answer.
+      </p>
+    </section>
+
+    <!-- Prompt Box -->
+    <section
+      class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl"
+    >
+      <textarea
+        id="promptInput"
+        rows="6"
+        placeholder="Ask anything..."
+        class="w-full bg-transparent outline-none resize-none text-lg"
+      ></textarea>
+
+      <div
+        class="flex justify-end mt-5"
+      >
+        <button
+          id="analyzeBtn"
+          class="bg-violet-600 hover:bg-violet-500 transition px-6 py-3 rounded-xl font-medium"
+        >
+          Analyze
+        </button>
+      </div>
+    </section>
+
+    <!-- Loading -->
+    <section
+      id="loadingSection"
+      class="hidden mt-10"
+    >
+      <div
+        class="bg-slate-900 border border-slate-800 rounded-3xl p-6 text-center"
+      >
+        <p
+          class="text-slate-400"
+        >
+          🧠 Gathering responses...
+        </p>
+      </div>
+    </section>
+
+    <!-- Consensus -->
+    <section
+      id="consensusSection"
+      class="hidden mt-10"
+    >
+    </section>
+
+    <!-- Model Responses -->
+    <section
+      id="modelsSection"
+      class="grid lg:grid-cols-3 gap-6 mt-10"
+    >
+    </section>
+
+  </main>
+
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
