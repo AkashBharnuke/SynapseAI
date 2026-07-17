@@ -7,6 +7,8 @@ const router = Router();
 
 router.post("/", chatLimitter, validatePrompt, generateResponse);
 
+router.get("/stream", chatLimitter, validatePrompt, generateResponse);
+
 export default router;
 
 

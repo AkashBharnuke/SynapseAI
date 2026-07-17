@@ -1,5 +1,21 @@
 const renderModelCard = (model) => {
-  const status = model.success ? "🟢 Success" : model.timedOut ? "⏰ Timed Out" : "❌ Failed";
+  let status = "⚪ Waiting";
+
+  switch (model.streamStatus) {
+    case "thinking":
+      status = "🟡 Thinking...";
+      break;
+
+    case "completed":
+      status = "🟢 Success";
+      break;
+
+    case "failed":
+      status = model.timedOut
+        ? "⏰ Timed Out"
+        : "❌ Failed";
+      break;
+  }
 
   const totalTokens = model.usage?.total ?? 0;
 
@@ -22,30 +38,44 @@ const renderModelCard = (model) => {
       </div>
 
       ${
-        model.success
+        model.streamStatus === "idle"
           ? `
-          <div class="flex gap-4 text-sm text-slate-400 mb-4">
-            <span>
-              ⏱️(Latency) ${model.latency}ms
-            </span>
+            <div class="text-slate-500">
+              Waiting for model...
+            </div>
+          `
+          : model.streamStatus === "thinking"
+          ? `
+            <div
+              class="animate-pulse text-slate-400"
+            >
+              Model is thinking...
+            </div>
+          `
+          : model.success
+          ? `
+            <div class="flex gap-4 text-sm text-slate-400 mb-4">
+              <span>
+                ⏱️ (Latency) ${model.latency ?? 0}ms
+              </span>
 
-            <span>
-              🎟️ (Total Tokens) ${totalTokens}
-            </span>
-          </div>
+              <span>
+                🎟️ (Total Tokens) ${totalTokens}
+              </span>
+            </div>
 
-          <div
-            class="text-slate-300 whitespace-pre-wrap text-sm leading-7"
-          >
-            ${model.answer}
-          </div>
+            <div
+              class="prose prose-invert max-w-none"
+            >
+              ${marked.parse(model.answer ?? '')}
+            </div>
           `
           : `
-          <div
-            class="text-red-400"
-          >
-            ${model.error}
-          </div>
+            <div
+              class="text-red-400"
+            >
+              ${model.error ?? "Request failed"}
+            </div>
           `
       }
     </div>

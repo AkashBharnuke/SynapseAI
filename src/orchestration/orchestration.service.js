@@ -15,18 +15,25 @@ const providerMap = {
     phi: generatePhiResponse
 }
 
-const orchestrateResponses = async(prompt) => {
+const orchestrateResponses = async(prompt, emitter = null) => {
     const models = getEnabledModels() ?? [];
 
     // console.log(`MODELS: ${models}`);
 
     const messages = buildMessages(prompt);
 
-    const promises = models.map((model) => {
+    const providerPromises = models.map((model) => {
 
         const provider = providerMap[model.provider];
 
         if (!provider) {
+            emitter?.emit('provider_failed', {
+                provider: model.provider,
+                model: model.id,
+                error: 'Provider not found',
+                timedOut: false
+            });
+
             return Promise.resolve({
                 model: model.id,
                 provider:
@@ -37,10 +44,45 @@ const orchestrateResponses = async(prompt) => {
             });
         }
 
-        return withTimeout(provider(messages, model), 30000);
+        // return withTimeout(provider(messages, model), 30000);
+
+        return (async () => {
+
+            try {
+                emitter?.emit('provider_started',  {
+                provider: model.provider,
+                model: model.id
+            });
+
+            const result = await withTimeout(provider(messages, model), 30000);
+
+            emitter?.emit('provider_completed',  result);
+
+            // emitter?.emit('provider_completed',  {
+            //     provider: model.provider,
+            //     model: model.id,
+            //     success: result.success
+            // });
+
+            return result;
+
+            } catch (error) {
+                emitter?.emit('provider_failed', {
+                    provider: model.provider,
+                    model: model.id,
+                    error: error?.message ?? 'Request timed out',
+                    timedOut: error?.timedOut ?? false
+                });
+
+                throw error;
+            }
+        })();
+
+        // IIFE
+
     });
 
-    const results = await Promise.allSettled(promises);
+    const results = await Promise.allSettled(providerPromises);
 
     return results.map((result, index) => {
         if (result.status == "fulfilled") {

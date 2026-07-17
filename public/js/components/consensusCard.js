@@ -1,8 +1,9 @@
-const renderConsensusCard = (
-  consensus
-) => {
-  const data =
-    consensus.consensus;
+const renderConsensusCard = (consensus) => {
+  const data = consensus?.consensus;
+
+  if (!data) {
+    return '';
+  }
 
   return `
     <div
@@ -39,8 +40,7 @@ const renderConsensusCard = (
         </p>
 
         <div class="flex flex-wrap gap-2">
-          ${data.contributingModels
-            .map(
+          ${(data.contributingModels ?? []).map(
               (model) => `
                 <span
                   class="bg-slate-800 px-3 py-1 rounded-lg text-sm"
@@ -61,9 +61,7 @@ const renderConsensusCard = (
         <ul
           class="space-y-2 list-disc list-inside text-slate-300"
         >
-          ${data.reasoning
-            .map(
-              (item) =>
+          ${(data.reasoning ?? []).map((item) =>
                 `<li>${item}</li>`
             )
             .join("")}
@@ -78,7 +76,7 @@ const renderConsensusCard = (
         <div
           class="bg-slate-950 rounded-2xl p-5 leading-7 text-slate-200 whitespace-pre-wrap"
         >
-          ${data.finalAnswer}
+          ${marked.parse(data.finalAnswer)}
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ const MIN_PROMPT_LENGTH = 3;
 const MAX_PROMPT_LENGTH = 4000;
 
 const validatePrompt = (req, res, next) => {
-    const { prompt } = req.body;
+    const { prompt } = req.query
 
     if (!prompt) {
         return res.status(400).json({
@@ -35,7 +35,7 @@ const validatePrompt = (req, res, next) => {
         });
     }
 
-    req.body.prompt = trimmedPrompt;
+    req.query.prompt = trimmedPrompt;
 
     next();
 }
