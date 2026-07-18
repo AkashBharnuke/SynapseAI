@@ -21,18 +21,14 @@ const renderModelCard = (model) => {
 
   return `
     <div
-      class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl h-full"
+      class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl h-full flex flex-col"
     >
       <div class="mb-4">
-        <h3
-          class="font-semibold text-lg break-words"
-        >
+        <h3 class="font-semibold text-lg break-words">
           🤖 ${model.model}
         </h3>
 
-        <p
-          class="text-sm text-slate-400 mt-2"
-        >
+        <p class="text-sm text-slate-400 mt-2">
           ${status}
         </p>
       </div>
@@ -46,9 +42,7 @@ const renderModelCard = (model) => {
           `
           : model.streamStatus === "thinking"
           ? `
-            <div
-              class="animate-pulse text-slate-400"
-            >
+            <div class="animate-pulse text-slate-400">
               Model is thinking...
             </div>
           `
@@ -56,24 +50,22 @@ const renderModelCard = (model) => {
           ? `
             <div class="flex gap-4 text-sm text-slate-400 mb-4">
               <span>
-                ⏱️ (Latency) ${model.latency ?? 0}ms
+                ⏱️ ${model.latency ?? 0}ms
               </span>
 
               <span>
-                🎟️ (Total Tokens) ${totalTokens}
+                🎟️ ${totalTokens} tokens
               </span>
             </div>
 
-            <div
-              class="prose prose-invert max-w-none"
-            >
-              ${marked.parse(model.answer ?? '')}
-            </div>
+            <div class="mt-4 border-t border-slate-800 pt-4">
+              <div class="prose prose-sm prose-invert max-w-none leading-8 prose-p:my-4 prose-li:my-2 prose-pre:my-6 prose-headings:mb-4 prose-headings:mt-8">
+                  ${marked.parse(model.answer ?? "")}
+              </div>
+          </div>
           `
           : `
-            <div
-              class="text-red-400"
-            >
+            <div class="text-red-400">
               ${model.error ?? "Request failed"}
             </div>
           `

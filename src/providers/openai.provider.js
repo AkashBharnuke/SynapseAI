@@ -1,4 +1,5 @@
 import { openai } from '../config/openai.js';
+import { LLM_CONFIG } from "../config/llm.config.js";
 
 const generateOpenAICompletion = async (messages, modelConfig) => {
     const startAt = Date.now();
@@ -7,6 +8,8 @@ const generateOpenAICompletion = async (messages, modelConfig) => {
         const response = await openai.chat.completions.create({
             model: modelConfig.id,
             messages: messages,
+            temperature: LLM_CONFIG.temperature,
+            max_tokens: LLM_CONFIG.max_tokens
         });
         
         const latency = Date.now() - startAt;

@@ -1,68 +1,69 @@
-import { deepseek }
-  from "../config/deepseek.js";
+import { deepseek } from "../config/deepseek.js";
+import { LLM_CONFIG } from "../config/llm.config.js";
 
 const generateDeepSeekResponse = async (
-    messages,
-    modelConfig
-  ) => {
-    const startedAt = Date.now();  
-    
-    try {
-      const response =
-      await deepseek.chat.completions.create({
-        model: modelConfig.id,
-        messages
-      });
-      
-      const latency = Date.now() - startedAt;
-      console.log(`🤖 [${modelConfig.id}] ${latency}ms`);
-    
-      return {
-        model: modelConfig.id,
-        provider: modelConfig.provider,
-        success: true,
+  messages,
+  modelConfig
+) => {
+  const startedAt = Date.now();
 
-        answer:
-          response.choices?.[0]?.message
-            ?.content ?? "",
+  try {
+    const response = await deepseek.chat.completions.create({
+      model: modelConfig.id,
+      messages,
+      temperature: LLM_CONFIG.temperature,
+      max_tokens: LLM_CONFIG.max_tokens
+    });
 
-        latency: latency,
+    const latency = Date.now() - startedAt;
+    console.log(`🤖 [${modelConfig.id}] ${latency}ms`);
 
-        usage: {
-          input:
-            response.usage?.prompt_tokens ??
-            0,
+    return {
+      model: modelConfig.id,
+      provider: modelConfig.provider,
+      success: true,
 
-          output:
-            response.usage
-              ?.completion_tokens ?? 0,
+      answer:
+        response.choices?.[0]?.message
+          ?.content ?? "",
 
-          total:
-            response.usage?.total_tokens ??
-            0
-        },
+      latency: latency,
 
-        finishReason:
-          response.choices?.[0]
-            ?.finish_reason,
+      usage: {
+        input:
+          response.usage?.prompt_tokens ??
+          0,
 
-        metadata: {
-          id: response.id
-        }
-      };
-    } catch (error) {
-      console.error(`[${modelConfig.id}] Failed:`, error.message);
-      
-      return {
-        model: modelConfig.id,
-        provider: modelConfig.provider,
-        success: false,
-        error:
-          error?.message ??
-          "Failed to generate response."
-      };
-    }
-  };
+        output:
+          response.usage
+            ?.completion_tokens ?? 0,
+
+        total:
+          response.usage?.total_tokens ??
+          0
+      },
+
+      finishReason:
+        response.choices?.[0]
+          ?.finish_reason,
+
+      metadata: {
+        id: response.id
+      }
+    };
+  } catch (error) {
+    console.error(`[${modelConfig.id}] Failed:`, error.message);
+
+    return {
+      model: modelConfig.id,
+      provider: modelConfig.provider,
+      success: false,
+      error:
+        error?.message ??
+        "Failed to generate response."
+    };
+  }
+};
 
 
-  export { generateDeepSeekResponse };
+export { generateDeepSeekResponse };

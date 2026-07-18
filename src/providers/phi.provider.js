@@ -1,4 +1,5 @@
 import { phi } from "../config/phi.js";
+import { LLM_CONFIG } from "../config/llm.config.js";
 
 const generatePhiResponse = async (
     messages,
@@ -10,7 +11,9 @@ const generatePhiResponse = async (
       const response =
       await phi.chat.completions.create({
         model: modelConfig.id,
-        messages
+        messages,
+        temperature: LLM_CONFIG.temperature,
+        max_tokens: LLM_CONFIG.max_tokens
       });
       
       const latency = Date.now() - startedAt;

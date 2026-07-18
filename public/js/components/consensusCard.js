@@ -73,10 +73,10 @@ const renderConsensusCard = (consensus) => {
           Final Answer
         </p>
 
-        <div
-          class="bg-slate-950 rounded-2xl p-5 leading-7 text-slate-200 whitespace-pre-wrap"
-        >
-          ${marked.parse(data.finalAnswer)}
+        <div class="bg-slate-950 rounded-2xl p-5">
+          <div class="prose prose-invert max-w-none">
+            ${marked.parse(data.finalAnswer ?? "")}
+          </div>
         </div>
       </div>
     </div>

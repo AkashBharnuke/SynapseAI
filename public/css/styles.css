@@ -16,3 +16,54 @@ body {
   background: #475569;
   border-radius: 999px;
 }
+
+.prose pre {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+}
+
+.prose code {
+  word-break: break-word;
+}
+
+
+
+/* ------ */
+
+.prose {
+  line-height: 1.8;
+}
+
+.prose p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.prose li {
+  margin: 0.5rem 0;
+}
+
+.prose pre {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 0.75rem;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+}
