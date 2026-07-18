@@ -1,0 +1,17 @@
+services:
+  synapse-ai:
+    build:
+      context: .
+
+    container_name: synapse-ai
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "3001:3000"    
+    networks:
+      - synapse-net
+
+networks:
+  synapse-net:
+    driver: bridge
