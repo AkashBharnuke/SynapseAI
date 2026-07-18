@@ -11,8 +11,18 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES2024-F7DF1E?logo=javascript)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-06B6D4?logo=tailwindcss)
 ![SSE](https://img.shields.io/badge/Streaming-SSE-orange)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991?logo=openai)
 
 </div>
+
+---
+
+
+🌐 **Live Demo:** [ https://synapseai.akashbharnuke.tech/ ]
+
+🎥 **Demo Video:** [Watch Demo](docs/demo/demo.mp4)
+
 
 ---
 
@@ -25,6 +35,24 @@ SynapseAI explores a different approach.
 It asks multiple independent LLMs the same question, collects their responses, and synthesizes a final answer using a dedicated **Judge Model**.
 
 This follows the **Self-Consistency** reasoning technique, helping improve response quality, reduce hallucinations, and provide greater confidence in the final output.
+
+---
+
+## 📸 Preview
+
+![SynapseAI Home](docs/synapse-home.png)
+
+---
+
+
+## 🌟 Highlights
+
+- 🔄 Parallel Multi-LLM Orchestration
+- 🧠 Self-Consistency Reasoning Workflow
+- ⚖️ Judge Model for Consensus Generation
+- 📡 Real-Time Streaming via Server-Sent Events (SSE)
+- 📝 Markdown & Code Syntax Rendering
+- 🐳 Dockerized Deployment with Nginx & SSL
 
 ---
 
@@ -44,28 +72,33 @@ This follows the **Self-Consistency** reasoning technique, helping improve respo
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Self-Consistency Workflow
 
-```text
-                    User Prompt
-                         │
-                         ▼
-                Parallel Model Calls
-         ┌─────────┬─────────┬─────────┐
-         ▼         ▼         ▼
-      OpenAI   DeepSeek      Phi
-         │         │         │
-         └─────────┴─────────┘
-                 Individual Answers
-                         │
-                         ▼
-                Judge / Consensus Model
-                         │
-                         ▼
-              Final Synthesized Response
+```                    👤 User
+                       │
+                       ▼
+               💻 SynapseAI UI
+                       │
+                 Server-Sent Events
+                       │
+                       ▼
+                🚀 Express Backend
+                       │
+                🧠 Orchestrator
+        ┌─────────┼──────────┐
+        ▼         ▼          ▼
+   GPT-4.1    DeepSeek     Phi-4
+        │         │          │
+        └─────────┼──────────┘
+                  ▼
+          ⚖️ GPT-4o Judge
+                  │
+                  ▼
+         ✨ Consensus Response
+                  │
+                  ▼
+             Stream to UI
 ```
-
----
 
 ## 🧩 Tech Stack
 
@@ -83,12 +116,12 @@ This follows the **Self-Consistency** reasoning technique, helping improve respo
 
 ## 🤖 AI Models
 
-| Role | Model |
-|------|-------|
-| Provider | GPT-4.1 Mini |
-| Provider | DeepSeek-R1 |
-| Provider | Phi-4 Mini Reasoning |
-| Judge | GPT-4o |
+| Purpose | Provider | Model |
+|----------|----------|-------|
+| Primary | OpenAI | GPT-4.1 Mini |
+| Primary | OpenRouter | DeepSeek-R1 |
+| Primary | GitHub Models | Phi-4 Mini |
+| Judge | OpenAI | GPT-4o |
 
 ---
 
@@ -106,25 +139,38 @@ This follows the **Self-Consistency** reasoning technique, helping improve respo
 ## 📂 Project Structure
 
 ```text
-public/
+.
+├── public/
+│   ├── js/
+│   ├── css/
+│   └── assets/
 │
-├── js/
-│   ├── api/
-│   ├── components/
-│   ├── state/
-│   └── ui/
+├── src/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── prompts/
+│   ├── providers/
+│   ├── routes/
+│   ├── services/
+│   └── utils/
 │
-src/
-│
-├── controllers/
-├── providers/
-├── services/
-├── routes/
-├── middleware/
-├── prompts/
-├── config/
-└── utils/
+├── docs/
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
 ```
+
+---
+
+## 🌐 Deployment
+
+SynapseAI is deployed using:
+
+- Docker
+- Docker Compose
+- Nginx Reverse Proxy
+- Let's Encrypt SSL
 
 ---
 
