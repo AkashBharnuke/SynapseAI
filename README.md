@@ -1,42 +1,52 @@
-# SynapseAI v1.1 — Technical Reference
+# 🧠 SynapseAI
 
-## Overview
+<div align="center">
 
-**SynapseAI** is a Self-Consistency Answer Engine that improves the quality of AI-generated responses by querying multiple Large Language Models (LLMs), collecting their independent answers, and synthesizing a final consensus using a dedicated judge model.
+### **Multiple Minds. One Answer.**
 
-Rather than relying on a single model, SynapseAI follows the **Self-Consistency** reasoning technique to reduce hallucinations, improve factual consistency, and provide greater confidence in the final response.
+*A Self-Consistency AI Engine that orchestrates multiple LLMs to generate higher-quality answers through consensus.*
 
----
+![Node.js](https://img.shields.io/badge/Node.js-22.x-339933?logo=node.js)
+![Express](https://img.shields.io/badge/Express.js-5-black?logo=express)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES2024-F7DF1E?logo=javascript)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-06B6D4?logo=tailwindcss)
+![SSE](https://img.shields.io/badge/Streaming-SSE-orange)
 
-# Project Type
-
-**Application Type:** Web Application (UI-Based)
-
-* **Frontend**
-
-  * Vanilla JavaScript (ES Modules)
-  * Tailwind CSS
-  * Marked.js (Markdown Rendering)
-  * Highlight.js (Syntax Highlighting)
-
-* **Backend**
-
-  * Node.js
-  * Express.js
-
-* **Communication**
-
-  * Server-Sent Events (SSE) for real-time streaming
+</div>
 
 ---
 
-# Core Philosophy
+## 📖 Overview
 
-Traditional AI chat applications produce a response from a single model.
+Most AI applications rely on a **single language model** to answer a user's question.
 
-SynapseAI instead asks multiple independent models the same question and combines their reasoning into a single higher-quality answer.
+SynapseAI explores a different approach.
 
-```
+It asks multiple independent LLMs the same question, collects their responses, and synthesizes a final answer using a dedicated **Judge Model**.
+
+This follows the **Self-Consistency** reasoning technique, helping improve response quality, reduce hallucinations, and provide greater confidence in the final output.
+
+---
+
+## ✨ Features
+
+- 🚀 Multi-model orchestration
+- ⚡ Parallel execution
+- 🧠 Self-Consistency answer synthesis
+- 🤖 Dedicated Judge Model
+- 📡 Real-time streaming using Server-Sent Events (SSE)
+- 📊 Live model status updates
+- ⏱️ Latency reporting
+- 🎟️ Token usage reporting
+- 📝 Markdown rendering
+- 💻 Syntax highlighted code blocks
+- 📱 Responsive UI
+
+---
+
+## 🏗️ Architecture
+
+```text
                     User Prompt
                          │
                          ▼
@@ -55,322 +65,177 @@ SynapseAI instead asks multiple independent models the same question and combine
               Final Synthesized Response
 ```
 
-This architecture follows the Self-Consistency prompting strategy commonly used for improving reasoning quality.
+---
+
+## 🧩 Tech Stack
+
+| Layer | Technology |
+|--------|------------|
+| Frontend | Vanilla JavaScript |
+| Styling | Tailwind CSS |
+| Backend | Express.js |
+| Runtime | Node.js |
+| Streaming | Server-Sent Events (SSE) |
+| Markdown | Marked.js |
+| Syntax Highlighting | Highlight.js |
 
 ---
 
-# Current Providers
+## 🤖 AI Models
 
-The current implementation uses three independent providers.
-
-| Provider      | Model                |
-| ------------- | -------------------- |
-| OpenAI        | GPT-4.1 Mini         |
-| OpenRouter    | DeepSeek-R1          |
-| GitHub Models | Phi-4 Mini Reasoning |
-
-Each provider is queried independently and in parallel.
+| Role | Model |
+|------|-------|
+| Provider | GPT-4.1 Mini |
+| Provider | DeepSeek-R1 |
+| Provider | Phi-4 Mini Reasoning |
+| Judge | GPT-4o |
 
 ---
 
-# Current Architecture
+## ⚙️ How It Works
 
-```
-Frontend
-│
-├── Prompt Input
-├── SSE Listener
-├── Model Cards
-└── Consensus Card
-
-        │
-        ▼
-
-Express Backend
-│
-├── Controller
-├── Orchestrator
-├── Provider Layer
-├── Judge Layer
-└── SSE Event Stream
-```
+1. User submits a prompt.
+2. SynapseAI sends the prompt to multiple LLMs in parallel.
+3. Each provider independently generates a response.
+4. Responses are streamed to the frontend in real time.
+5. The Judge Model analyzes all responses.
+6. A synthesized consensus is generated and displayed.
 
 ---
 
-# Request Flow
+## 📂 Project Structure
 
-1. User enters a prompt.
-2. Frontend opens an SSE connection.
-3. Backend begins orchestration.
-4. All providers execute in parallel.
-5. Each provider streams status updates.
-6. Completed responses are collected.
-7. Judge model synthesizes a final consensus.
-8. Final consensus is streamed to the UI.
-
----
-
-# Self-Consistency Pipeline
-
-## Step 1 — User Prompt
-
-A single prompt is received.
-
-```
-Explain SDLC
-```
-
----
-
-## Step 2 — Parallel Execution
-
-The prompt is simultaneously sent to all configured providers.
-
-```
-OpenAI
-DeepSeek
-Phi
-```
-
-Each provider works independently.
-
----
-
-## Step 3 — Individual Responses
-
-Each provider returns:
-
-* Generated answer
-* Latency
-* Token usage
-* Success/failure status
-
----
-
-## Step 4 — Consensus Generation
-
-After all providers complete, their responses are passed to a judge model.
-
-The judge analyzes:
-
-* Agreement between models
-* Missing information
-* Contradictions
-* Overall confidence
-
-The judge returns:
-
-* Final synthesized answer
-* Confidence score
-* Agreement level
-* Contributing models
-* Reasoning behind the decision
-
----
-
-# Streaming Architecture
-
-SynapseAI uses **Server-Sent Events (SSE)** instead of waiting for all providers to complete.
-
-Current event sequence:
-
-```
-provider_started
-
-provider_completed
-
-provider_failed
-
-judge_started
-
-consensus_completed
-
-done
-```
-
-This enables the frontend to update progressively as work completes.
-
----
-
-# Frontend Architecture
-
-```
+```text
 public/
-
-app.js
-
-js/
 │
-├── api/
-│     └── chat.api.js
+├── js/
+│   ├── api/
+│   ├── components/
+│   ├── state/
+│   └── ui/
 │
-├── components/
-│     ├── modelCard.js
-│     └── consensusCard.js
+src/
 │
-├── state/
-│     └── state.js
-│
-└── ui/
-      ├── models.js
-      ├── consensus.js
-      └── loading.js
-```
-
-### Responsibilities
-
-### chat.api.js
-
-* Opens SSE connection
-* Listens for backend events
-* Updates application state
-* Triggers UI rendering
-
----
-
-### state.js
-
-Stores application state.
-
-```
-Model States
-
-Consensus State
+├── controllers/
+├── providers/
+├── services/
+├── routes/
+├── middleware/
+├── prompts/
+├── config/
+└── utils/
 ```
 
 ---
 
-### modelCard.js
+## 🚀 Getting Started
 
-Responsible for rendering:
+### Clone the repository
 
-* Model name
-* Status
-* Latency
-* Token usage
-* Markdown answer
+```bash
+git clone https://github.com/yourusername/synapse-ai.git
 
----
-
-### consensusCard.js
-
-Responsible for rendering:
-
-* Confidence
-* Agreement level
-* Contributing models
-* Judge reasoning
-* Final synthesized answer
-
----
-
-# Markdown Rendering
-
-LLM responses are rendered using:
-
-* Marked.js
-* Highlight.js
-
-This provides:
-
-* Markdown support
-* Lists
-* Tables
-* Code blocks
-* Syntax highlighting
-
----
-
-# Current Generation Configuration
-
-A shared generation configuration is used across all providers.
-
-```
-temperature
-
-max_tokens
+cd synapse-ai
 ```
 
-This ensures every provider generates responses under comparable conditions.
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Configure Environment Variables
+
+```env
+OPENAI_API_KEY=
+GITHUB_TOKEN=
+OPENROUTER_API_KEY=
+```
+
+### Start the application
+
+```bash
+npm start
+```
+
+The application will be available at:
+
+```
+http://localhost:3000
+```
 
 ---
 
-# Current Features
+## 🐳 Deployment
 
-* Multi-model orchestration
-* Parallel provider execution
-* Self-consistency synthesis
-* Real-time SSE streaming
-* Live model status updates
-* Provider latency reporting
-* Token usage reporting
-* Markdown rendering
-* Syntax highlighting
-* Responsive card-based UI
+SynapseAI is designed to be deployed using:
+
+- Docker
+- Docker Compose
+- Nginx Reverse Proxy
+- SSL via Certbot
+
+Detailed deployment instructions are available in the `/docs` directory.
 
 ---
 
-# Future Roadmap
+## 🛣️ Roadmap
 
-## v1.2
+### v1.2
 
-* Conversation history
-* Session management
-* Streaming markdown rendering
-* Copy response functionality
-* Better loading animations
-* Advanced generation settings
-* Prompt templates
+- Conversation history
+- Prompt templates
+- Copy responses
+- Better loading animations
 
----
+### v1.3
 
-## v1.3
+- Langfuse integration
+- Prompt versioning
+- Cost tracking
+- Analytics dashboard
 
-* Langfuse Observability
-* Prompt versioning
-* Cost tracking
-* Request tracing
-* Analytics dashboard
+### v1.4
 
----
-
-## v1.4
-
-* Additional providers
-
-  * Claude
-  * Gemini
-  * Grok
-  * Local LLMs (Ollama)
-
-* Pluggable provider architecture
+- Claude
+- Gemini
+- Grok
+- Ollama
+- Pluggable provider architecture
 
 ---
 
-# Design Goals
+## 📸 Screenshots
 
-* Provider-agnostic architecture
-* Modular orchestration
-* Extensible provider layer
-* Clean UI updates via SSE
-* Consistent generation configuration
-* Production-oriented project structure
+> *(Add screenshots or a demo GIF here after deployment.)*
 
 ---
 
-# Current Status
+## 📝 Technical Documentation
 
-**Version:** v1.1
+A detailed technical reference covering the architecture, orchestration flow, and implementation decisions is available in:
 
-### Completed
+```text
+docs/
+└── SynapseAI-v1.1-Technical-Reference.md
+```
 
-* Multi-provider orchestration
-* Self-consistency workflow
-* Judge synthesis
-* SSE streaming
-* Real-time UI updates
-* Markdown rendering
-* Syntax highlighting
-* Shared LLM generation configuration
+---
 
-The current implementation serves as the foundation for a production-grade AI answer synthesis platform that can be extended with observability, additional providers, evaluation pipelines, and advanced orchestration strategies.
+## 💡 Why SynapseAI?
+
+SynapseAI is an exploration of **AI orchestration** rather than simple AI integration.
+
+Instead of trusting a single model, it demonstrates how multiple specialized LLMs can collaborate to produce stronger, more reliable answers through consensus.
+
+The project also serves as a foundation for future experimentation with evaluation pipelines, observability, provider benchmarking, and advanced orchestration strategies.
+
+---
+
+<div align="center">
+
+**Built with ❤️ using Node.js, Express, and Multiple LLMs**
+
+*"Multiple Minds. One Answer."*
+
+</div>
