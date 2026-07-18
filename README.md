@@ -21,9 +21,6 @@
 
 🌐 **Live Demo:** [ https://synapseai.akashbharnuke.tech/ ]
 
-🎥 **Demo Video:** [Watch Demo](docs/demo/demo.mp4)
-
-
 ---
 
 ## 📖 Overview
@@ -69,6 +66,14 @@ This follows the **Self-Consistency** reasoning technique, helping improve respo
 - 📝 Markdown rendering
 - 💻 Syntax highlighted code blocks
 - 📱 Responsive UI
+
+---
+
+## 🎥 Demo
+
+A short walkthrough of SynapseAI is available below.
+
+[Demo Video](docs/demo/synapse-ai-demo.mp4)
 
 ---
 
